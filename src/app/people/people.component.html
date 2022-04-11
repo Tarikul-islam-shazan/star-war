@@ -1,5 +1,5 @@
 
-    <ul>
+  <ul *ngIf="peoples.length !== 0">
     <li *ngFor="let p of peoples ; let i=index">
       {{p.name }} / &nbsp;&nbsp;
       <span>
@@ -8,7 +8,7 @@
       <span>
         <app-home-world [homeWorldUrl]="p.homeworld"></app-home-world>
       </span> &nbsp;&nbsp;
-      <a [routerLink]="['/people',i+1]">More Details</a>
+      <a [routerLink]="['/people',getIndex(p.url)]">More Details</a>
     </li>
   </ul>
   <button class="btn" *ngIf="isNext" (click)="goToNextPage()" style="float:right; padding: 10px;"><a>Next</a></button>

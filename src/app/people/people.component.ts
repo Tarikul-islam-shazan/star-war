@@ -3,6 +3,7 @@ import { PeopleData, People } from './models/people';
 import { PeopleService } from './people.service';
 import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
+import { SearchService } from '../core/services/search.service';
 
 @Component({
   selector: 'app-people',
@@ -20,20 +21,36 @@ export class PeopleComponent implements OnInit {
   isPrevious: boolean = false;
   isNext: boolean = false;
   getPeoplesService = Subscription.EMPTY;
+  subs: Subscription[] = [];
+  data: string = '';
 
   constructor(
     private changeDetectionRef: ChangeDetectorRef,
     private peopleService: PeopleService,
+    private searchService: SearchService
   ) { }
 
   ngOnInit(): void {
+    this.searchOnPeopleList();
     this.getPeoples(this.page);
   }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log('Search => ', this.searchService.getSearchQuery());
+  searchOnPeopleList() : void{
+      this.searchService.searchQuery.subscribe(query => {
+        if(query.length != 0){
+          this.peopleService.searchPeopleList(query).subscribe(people => {
+            console.log('search',people);
+            this.isPrevious = false;
+            this.isNext = false;
+            this.peoples = people.results;
+            this.changeDetectionRef.markForCheck();
+          })
+        } else {
+          this.getPeoples(this.page);
+        }
+    });
+  }
 
-  // }
 
   getPeoples(page: number): void {
     this.getPeoplesService = this.peopleService.getPeople(page).subscribe( peoples => {
@@ -42,6 +59,11 @@ export class PeopleComponent implements OnInit {
       this.peoples = peoples.results;
       this.changeDetectionRef.markForCheck();
     });
+  }
+
+  getIndex(urlString : string): number{
+    const url  = urlString.split('/');
+    return  Number(url[5]);
   }
 
   getPageNumber(urlString : string): number{
@@ -76,16 +98,11 @@ export class PeopleComponent implements OnInit {
       this.isNext = false;
       return;
     }
-    console.log("current page " + this.page);
+    //console.log("current page " + this.page);
     this.getPeoples(this.page);
   }
 
-  searchThis(){
-    console.log('search this called');
-  }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.getPeoplesService.unsubscribe();
   }
 

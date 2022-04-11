@@ -1,11 +1,11 @@
 
   <div class="topnav">
-      <a>Search 1</a>
-      <a>Search 2</a>
-      <a>Search 3</a>
+    <div *ngFor="let s of suggestString">
+      <a (click)="suggestSearch(s)">{{ s }}</a>
+    </div>
       <div class="search-container">
         <form>
-            <input type="text" [(ngModel)]="searchQuery"  placeholder="Search.." name="search">
+            <input type="text" [(ngModel)]="searchQuery" (keydown.enter)="doSearch()" placeholder="Search.." name="search">
             <button><i class="fa fa-search"></i></button>
         </form>
       </div>

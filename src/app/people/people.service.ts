@@ -15,6 +15,10 @@ export class PeopleService {
     return this.http.get<People>(this.apiEndpoint + '?page=' + page);
   }
 
+  searchPeopleList(query: string): Observable<any> {
+    return this.http.get(this.apiEndpoint + '?search=' + query)
+  }
+
   getPeopleDetails(id: number): Observable<PeopleData> {
     return this.http.get<PeopleData>(this.apiEndpoint + id);
   }
