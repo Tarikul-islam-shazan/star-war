@@ -1,10 +1,5 @@
-ul{
-  list-style-type: none;
-}
-li{
-  line-height: 40px;
-}
 .btn {
+  float: right;
   margin: 4px;
   border: 2px solid black;
   border-radius: 4px;
@@ -13,6 +8,4 @@ li{
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
-  float:right;
-  padding: 10px;
 }

@@ -11,6 +11,6 @@
       <a [routerLink]="['/people',getIndex(p.url)]">More Details</a>
     </li>
   </ul>
-  <button class="btn" *ngIf="isNext" (click)="goToNextPage()" style="float:right; padding: 10px;"><a>Next</a></button>
-  <button class="btn"  *ngIf="isPrevious" (click)="goToPrevPage()" style="float:right; padding: 10px;"><a>Previous</a></button>
+  <button class="btn" *ngIf="isNext" (click)="goToNextPage()" ><a>Next</a></button>
+  <button class="btn"  *ngIf="isPrevious" (click)="goToPrevPage()"><a>Previous</a></button>
 

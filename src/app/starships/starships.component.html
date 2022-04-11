@@ -1,1 +1,15 @@
-<p>starships works!</p>
+<ul *ngIf="starships.length !== 0">
+  <li *ngFor="let s of starships">
+    {{s.name }} / &nbsp;&nbsp;
+    <span>
+      {{s.model}}
+    </span> /&nbsp;&nbsp;
+    <span>
+      <app-starship-length [starshipLength]="s.length"></app-starship-length>
+    </span>&nbsp;&nbsp;
+
+    <a [routerLink]="['/starships',getIndex(s.url)]">More Details</a>
+  </li>
+</ul>
+<button class="btn" *ngIf="isNext" (click)="goToNextPage()" ><a>Next</a></button>
+<button class="btn"  *ngIf="isPrevious" (click)="goToPrevPage()"><a>Previous</a></button>

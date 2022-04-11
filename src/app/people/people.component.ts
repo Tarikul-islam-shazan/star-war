@@ -98,7 +98,6 @@ export class PeopleComponent implements OnInit {
       this.isNext = false;
       return;
     }
-    //console.log("current page " + this.page);
     this.getPeoples(this.page);
   }
 
