@@ -1,0 +1,7 @@
+<p><b>Name</b>: {{ people.name }}</p>
+<p><b>Birth Year</b>: {{people.birth_year}}</p>
+<p><b>Eye color</b>: {{people.eye_color}}</p>
+<p><b>Mass</b>: {{people.mass}}</p>
+<p><b>Height</b>: <app-people-hight [peopleheight]="people.height"></app-people-hight></p>
+<p><b>Planet</b>:<app-home-world [homeWorldUrl]="people.homeworld"></app-home-world></p>
+<button class="btn" (click)="backClicked()">Back</button>
