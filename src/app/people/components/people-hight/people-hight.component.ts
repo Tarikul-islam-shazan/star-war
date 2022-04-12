@@ -24,7 +24,7 @@ export class PeopleHightComponent implements OnInit {
       case (value< 100):
         this.heightText = 'low';
         break;
-      case (100 < value &&  value< 200):
+      case (100 <= value &&  value<= 200):
         this.heightText = 'normal';
         break;
     }

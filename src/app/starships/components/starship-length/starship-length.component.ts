@@ -7,16 +7,20 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 })
 export class StarshipLengthComponent implements OnInit {
   @Input() starshipLength!: string;
-  starshipLengthText: String = '';
+  starshipLengthText: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
-    this.mapHeightText();
+    this.mapLengthText();
   }
 
-  mapHeightText(): void {
-    const value = Number(this.starshipLength);
+  mapLengthText(): void {
+    const value = Number(
+      this.starshipLength.includes(',')
+      ? this.starshipLength.replace(',','')
+      : this.starshipLength
+    );
     switch(true){
       case (value> 1000):
         this.starshipLengthText = 'large';
@@ -24,7 +28,7 @@ export class StarshipLengthComponent implements OnInit {
       case (value< 100):
         this.starshipLengthText = 'small';
         break;
-      case (100 < value &&  value< 200):
+      case (100 <= value &&  value <= 1000):
         this.starshipLengthText = 'normal';
         break;
     }
