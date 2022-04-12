@@ -1,19 +1,22 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-
 
 import { StarshipsComponent } from './starships.component';
 import { StarshipsService } from './starships.service';
 import { MockService } from '../testing/mock-starship.service'
+import { StarshipLengthComponent } from './components/starship-length/starship-length.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('StarshipComponent Test', () => {
   let comp: StarshipsComponent;
   let service: StarshipsService;
   let fixture: ComponentFixture<StarshipsComponent>;
 
-  beforeEach(async() => {
-    await TestBed.configureTestingModule({
+  beforeEach(() => {
+     TestBed.configureTestingModule({
+      imports: [ RouterTestingModule ],
+
+      declarations:[StarshipsComponent, StarshipLengthComponent],
       providers: [
         {
           provide: StarshipsService, useClass: MockService
@@ -33,8 +36,27 @@ describe('StarshipComponent Test', () => {
     expect(comp.starships.length).toBe(2);
   })
 
-  it('should getPageNumber() return 2', () => {
-    expect(comp.getPageNumber('https://swapi.dev/api/starships/?page=2')).toBe(2);
+  it('should Next page no to be 2', () => {
+    comp.ngOnInit();
+    expect(comp.nextPage).toBe(2);
   })
 
+  it('should previous page no to be 0', () => {
+    comp.ngOnInit();
+    expect(comp.prevPage).toBe(0);
+  })
+
+  it("should contain starship  name 'CR90 corvette'", () => {
+    comp.ngOnInit();
+    fixture.detectChanges();
+    const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
+    expect(listDisplay.innerText).toContain('CR90 corvette');
+  })
+
+  it("should contain starship  length 'Normal'", () => {
+    comp.ngOnInit();
+    fixture.detectChanges();
+    const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
+    expect(listDisplay.innerText).toContain('normal');
+  })
 });

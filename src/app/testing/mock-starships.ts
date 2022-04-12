@@ -18,7 +18,7 @@ export function getTestStarships(): StrashipList{
         length: "150",
         manufacturer: "Corellian Engineering Corporation",
         max_atmosphering_speed: "950",
-        model: "CR90 corvette",
+        model: "CR90",
         name: "CR90 corvette",
         passengers: "600",
         pilots: [],
