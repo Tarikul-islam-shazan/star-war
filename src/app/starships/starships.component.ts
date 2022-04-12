@@ -18,6 +18,8 @@ export class StarshipsComponent implements OnInit {
   nextPage: number = 0;
   isPrevious: boolean = false;
   isNext: boolean = false;
+  prevText: string = 'prev';
+  nextText: string = 'next';
 
   constructor(
     private starshipsService: StarshipsService,
@@ -34,7 +36,6 @@ export class StarshipsComponent implements OnInit {
     this.searchService.searchQuery.subscribe(query => {
       if(query.length != 0){
         this.starshipsService.searchStarshipList(query).subscribe(starship => {
-          //console.log('search',people);
           this.isPrevious = false;
           this.isNext = false;
           this.starships = starship.results;
@@ -48,10 +49,10 @@ export class StarshipsComponent implements OnInit {
 
   getStarShip(page: number) {
     this.starshipsService.getStarships(page).subscribe(starshipList => {
-      //console.log(starshipList);
-      if(page == 1) this.totalPage = Math.ceil(starshipList.count/starshipList.results.length)
-      this.pagination(starshipList);
-      this.starships = starshipList.results;
+      const { count, results, previous, next } = starshipList;
+      if(page == 1) this.totalPage = Math.ceil(count/results.length)
+      this.pagination(previous, next);
+      this.starships = results;
       this.changeDetectionRef.markForCheck();
     })
   }
@@ -67,33 +68,32 @@ export class StarshipsComponent implements OnInit {
     return  Number(pageNumber);
   }
 
-  pagination(starships: StrashipList): void{
-    if(starships.previous) {
-      this.prevPage = this.getPageNumber(starships.previous)
+  pagination(previous: string, next: string): void{
+    if(previous) {
+      this.prevPage = this.getPageNumber(previous)
       this.isPrevious = true;
     }
-    if(starships.next){
-      this.nextPage = this.getPageNumber(starships.next);
+    if(next){
+      this.nextPage = this.getPageNumber(next);
       this.isNext = true;
     }
   }
 
-  goToPrevPage(): void{
-    this.page = this.prevPage;
-    if(this.page === 1) {
-      this.isPrevious = false;
-      return;
+  pageChange(choice: string){
+    if(choice == this.prevText){
+      this.page = this.prevPage;
+      if(this.page === 1) {
+        this.isPrevious = false;
+        return;
+      }
+    }
+    if(choice == this.nextText){
+      this.page = this.nextPage;
+      if(this.page == this.totalPage ) {
+        this.isNext = false;
+        return;
+      }
     }
     this.getStarShip(this.page);
   }
-
-  goToNextPage(): void{
-    this.page = this.nextPage;
-    if(this.page == this.totalPage ) {
-      this.isNext = false;
-      return;
-    }
-    this.getStarShip(this.page);
-  }
-
 }

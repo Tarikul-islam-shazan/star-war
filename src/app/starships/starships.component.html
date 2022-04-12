@@ -11,5 +11,5 @@
     <a [routerLink]="['/starships',getIndex(s.url)]">More Details</a>
   </li>
 </ul>
-<button class="btn" *ngIf="isNext" (click)="goToNextPage()" ><a>Next</a></button>
-<button class="btn"  *ngIf="isPrevious" (click)="goToPrevPage()"><a>Previous</a></button>
+<button class="btn" *ngIf="isNext" (click)="pageChange(nextText)" ><a>Next</a></button>
+<button class="btn"  *ngIf="isPrevious" (click)="pageChange(prevText)"><a>Previous</a></button>
