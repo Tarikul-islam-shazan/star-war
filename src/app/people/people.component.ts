@@ -23,7 +23,6 @@ export class PeopleComponent implements OnInit {
   getPeoplesService = Subscription.EMPTY;
   searchServiceSubscription = Subscription.EMPTY;
   subs: Subscription[] = [];
-  data: string = '';
   prevText: string = 'prev';
   nextText: string = 'next';
 
