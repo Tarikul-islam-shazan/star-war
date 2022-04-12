@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Starship, StrashipList } from './models/starship';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StarshipsService {
   apiEndpoint = environment.apiUrl + 'starships/';
 
