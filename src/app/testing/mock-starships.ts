@@ -46,5 +46,5 @@ export function getTestStarships(): StrashipList{
         url: "https://swapi.dev/api/starships/2/",
       }
     ]
-}
+  }
 }

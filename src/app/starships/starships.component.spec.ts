@@ -5,7 +5,6 @@ import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/htt
 
 import { StarshipsComponent } from './starships.component';
 import { StarshipsService } from './starships.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MockService } from '../testing/mock-starship.service'
 
 describe('StarshipComponent Test', () => {
@@ -13,12 +12,9 @@ describe('StarshipComponent Test', () => {
   let service: StarshipsService;
   let fixture: ComponentFixture<StarshipsComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      declarations:[StarshipsComponent],
+  beforeEach(async() => {
+    await TestBed.configureTestingModule({
       providers: [
-        StarshipsComponent,
         {
           provide: StarshipsService, useClass: MockService
         },
@@ -30,11 +26,9 @@ describe('StarshipComponent Test', () => {
     fixture = TestBed.createComponent(StarshipsComponent);
     comp = fixture.componentInstance;
     service = TestBed.inject(StarshipsService);
-    //httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
-    //service = new StarshipsService(httpClientSpy)
   });
 
-  it('should starship data length to be 2', () => {
+  it('should starships data length to be 2', () => {
     comp.ngOnInit();
     expect(comp.starships.length).toBe(2);
   })
