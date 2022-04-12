@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-starship-length',
-  template:`{{ starshipLengthText}}`,
+  template:`{{ starshipLengthText  }}`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StarshipLengthComponent implements OnInit {
-  @Input() starshipLength: string = '';
-  starshipLengthText: String='';
+  @Input() starshipLength!: string;
+  starshipLengthText: String = '';
 
   constructor() { }
 
@@ -15,7 +15,7 @@ export class StarshipLengthComponent implements OnInit {
     this.mapHeightText();
   }
 
-  mapHeightText() {
+  mapHeightText(): void {
     const value = Number(this.starshipLength);
     switch(true){
       case (value> 1000):

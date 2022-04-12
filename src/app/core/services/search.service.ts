@@ -14,7 +14,7 @@ export class SearchService {
 
   constructor() {}
 
-  storeInlocalStorage(query: string) {
+  storeInlocalStorage(query: string): void {
     if(this.sreachArray.length < this.numberOfSearchToStore){
       this.sreachArray.push(query);
     } else {
@@ -23,6 +23,7 @@ export class SearchService {
     }
     localStorage.setItem (this.key,JSON.stringify(this.sreachArray));
   }
+
   getLocaStorageData(): Observable<string[]>{
     return of(JSON.parse(localStorage.getItem (this.key) || ''));
   }
