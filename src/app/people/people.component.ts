@@ -22,7 +22,6 @@ export class PeopleComponent implements OnInit {
   isNext: boolean = false;
   getPeoplesService = Subscription.EMPTY;
   searchServiceSubscription = Subscription.EMPTY;
-  subs: Subscription[] = [];
   prevText: string = 'prev';
   nextText: string = 'next';
 
