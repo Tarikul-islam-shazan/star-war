@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StarshipLengthComponent } from './starship-length.component';
 
+
 describe('StarshipLengthComponent', () => {
   let component: StarshipLengthComponent;
   let fixture: ComponentFixture<StarshipLengthComponent>;
@@ -22,4 +23,8 @@ describe('StarshipLengthComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });
+
+
+

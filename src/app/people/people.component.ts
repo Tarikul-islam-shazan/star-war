@@ -21,8 +21,12 @@ export class PeopleComponent implements OnInit {
   isPrevious: boolean = false;
   isNext: boolean = false;
   getPeoplesService = Subscription.EMPTY;
+  searchServiceSubscription = Subscription.EMPTY;
   subs: Subscription[] = [];
   data: string = '';
+  prevText: string = 'prev';
+  nextText: string = 'next';
+
 
   constructor(
     private changeDetectionRef: ChangeDetectorRef,
@@ -36,7 +40,7 @@ export class PeopleComponent implements OnInit {
   }
 
   searchOnPeopleList() : void{
-      this.searchService.searchQuery.subscribe(query => {
+      this.searchServiceSubscription = this.searchService.searchQuery.subscribe(query => {
         if(query.length != 0){
           this.peopleService.searchPeopleList(query).subscribe(people => {
             console.log('search',people);
@@ -54,9 +58,10 @@ export class PeopleComponent implements OnInit {
 
   getPeoples(page: number): void {
     this.getPeoplesService = this.peopleService.getPeople(page).subscribe( peoples => {
-      if(page == 1) this.totalPage = Math.ceil(peoples.count/peoples.results.length)
-      this.pagination(peoples);
-      this.peoples = peoples.results;
+      const { count, results, previous, next } = peoples;
+      if(page == 1) this.totalPage = Math.ceil(count/results.length)
+      this.pagination(previous,next);
+      this.peoples = results;
       this.changeDetectionRef.markForCheck();
     });
   }
@@ -72,37 +77,38 @@ export class PeopleComponent implements OnInit {
     return  Number(pageNumber);
   }
 
-  pagination(peoples: People): void{
-    if(peoples.previous) {
-      this.prevPage = this.getPageNumber(peoples.previous)
+  pagination(previous: string, next: string): void{
+    if(previous) {
+      this.prevPage = this.getPageNumber(previous)
       this.isPrevious = true;
     }
-    if(peoples.next){
-      this.nextPage = this.getPageNumber(peoples.next);
+    if(next){
+      this.nextPage = this.getPageNumber(next);
       this.isNext = true;
     }
   }
 
-  goToPrevPage(): void{
-    this.page = this.prevPage;
-    if(this.page === 1) {
-      this.isPrevious = false;
-      return;
+  pageChange(choice: string){
+    if(choice == this.prevText){
+      this.page = this.prevPage;
+      if(this.page === 1) {
+        this.isPrevious = false;
+        return;
+      }
     }
-    this.getPeoples(this.page);
-  }
-
-  goToNextPage(): void{
-    this.page = this.nextPage;
-    if(this.page == this.totalPage ) {
-      this.isNext = false;
-      return;
+    if(choice == this.nextText){
+      this.page = this.nextPage;
+      if(this.page == this.totalPage ) {
+        this.isNext = false;
+        return;
+      }
     }
     this.getPeoples(this.page);
   }
 
   ngOnDestroy(): void {
     this.getPeoplesService.unsubscribe();
+    this.searchServiceSubscription.unsubscribe();
   }
 
 }
