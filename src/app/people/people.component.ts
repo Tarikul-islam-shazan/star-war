@@ -41,7 +41,6 @@ export class PeopleComponent implements OnInit {
       this.searchServiceSubscription = this.searchService.searchQuery.subscribe(query => {
         if(query.length != 0){
           this.peopleService.searchPeopleList(query).subscribe(people => {
-            console.log('search',people);
             this.isPrevious = false;
             this.isNext = false;
             this.peoples = people.results;

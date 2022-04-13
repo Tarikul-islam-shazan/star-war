@@ -21,7 +21,6 @@ export class StarshipDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(response => {
       this.starship = response['starship'];
-      console.log(this.starship);
       this.changeDetectionRef.markForCheck();
     });
   }

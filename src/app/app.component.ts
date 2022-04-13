@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { SearchService } from './core/services/search.service';
 
 
@@ -8,8 +8,7 @@ import { SearchService } from './core/services/search.service';
   styleUrls: ['./app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent{
-  title = 'star-wars';
+export class AppComponent implements OnInit{
   searchQuery = '';
   suggestString: string[] = [];
 
@@ -17,18 +16,26 @@ export class AppComponent{
   constructor(
     public searchService: SearchService,
     private changeDetectionRef: ChangeDetectorRef,
-  ){
-      this.searchService.getLocaStorageData().subscribe(query => {
-        console.log(query);
-          this.suggestString = query;
-        this.changeDetectionRef.markForCheck();
-      });
+  ){}
 
-      this.searchService.searchQuery.subscribe((query) => {
-        if(query.length> 0) this.searchService.storeInlocalStorage(query);
-        this.suggestString = this.searchService.sreachArray;
-        this.changeDetectionRef.markForCheck();
-      });
+  ngOnInit(): void {
+    this.loadSearchDataFromStorage();
+    this.loadSearchData();
+  }
+
+  loadSearchDataFromStorage(): void {
+    this.searchService.getLocaStorageData().subscribe(query => {
+      this.suggestString = query;
+      this.changeDetectionRef.markForCheck();
+    });
+  }
+
+  loadSearchData(): void {
+    this.searchService.searchQuery.subscribe((query) => {
+      if(query.length> 0) this.searchService.storeInlocalStorage(query);
+      this.suggestString = this.searchService.sreachArray;
+      this.changeDetectionRef.markForCheck();
+    });
   }
 
   suggestSearch(query: string): void {
