@@ -1,4 +1,7 @@
+
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SearchService } from './core/services/search.service';
 
 
@@ -11,9 +14,11 @@ import { SearchService } from './core/services/search.service';
 export class AppComponent implements OnInit{
   searchQuery = '';
   suggestString: string[] = [];
+  searchServiceSubscription = Subscription.EMPTY;
 
 
   constructor(
+    private router: Router,
     public searchService: SearchService,
     private changeDetectionRef: ChangeDetectorRef,
   ){}
@@ -24,16 +29,16 @@ export class AppComponent implements OnInit{
   }
 
   loadSearchDataFromStorage(): void {
-    this.searchService.getLocaStorageData().subscribe(query => {
+    this.searchServiceSubscription = this.searchService.getLocaStorageData().subscribe(query => {
       this.suggestString = query;
       this.changeDetectionRef.markForCheck();
     });
   }
 
   loadSearchData(): void {
-    this.searchService.searchQuery.subscribe((query) => {
+    this.searchServiceSubscription = this.searchService.searchQuery.subscribe((query) => {
       if(query.length> 0) this.searchService.storeInlocalStorage(query);
-      this.suggestString = this.searchService.sreachArray;
+      this.suggestString = this.searchService.searchArray;
       this.changeDetectionRef.markForCheck();
     });
   }
@@ -45,5 +50,14 @@ export class AppComponent implements OnInit{
 
  doSearch(): void {
    this.searchService.searchQuery.next(this.searchQuery);
+ }
+
+ reloadCurrentPage(path: string): void {
+  this.router.navigateByUrl('/', {skipLocationChange: true})
+  .then(()=> this.router.navigate([path]));
+ }
+
+ ngOnDestroy(): void {
+   this.searchServiceSubscription.unsubscribe();
  }
 }

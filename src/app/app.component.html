@@ -12,12 +12,12 @@
     </div>
     <div class="container">
       <nav class="nav">
-        <a [routerLink]="['/','films']">Films</a>  &nbsp;
-        <a [routerLink]="['/','people']">People</a> &nbsp;
-        <a [routerLink]="['/','planets']">Planet</a> &nbsp;
-        <a [routerLink]="['/','species']">Species</a> &nbsp;
-        <a [routerLink]="['/','starships']">Starships</a> &nbsp;
-        <a [routerLink]="['/','vehicles']">Vehicles</a> &nbsp;
+        <a [routerLink]="['/films']">Films</a>  &nbsp;
+        <a [routerLink]="['/people']" (click)="reloadCurrentPage('/people')">People</a> &nbsp;
+        <a [routerLink]="['/planets']">Planet</a> &nbsp;
+        <a [routerLink]="['/species']" >Species</a> &nbsp;
+        <a [routerLink]="['/starships']" (click)="reloadCurrentPage('/starships')">Starships</a> &nbsp;
+        <a [routerLink]="['/vehicles']" >Vehicles</a> &nbsp;
         </nav>
         <router-outlet></router-outlet>
     </div>
