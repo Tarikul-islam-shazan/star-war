@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { HomeWorld } from '../../models/homeworld';
 import { PeopleService } from '../../people.service';
 
@@ -11,6 +12,7 @@ import { PeopleService } from '../../people.service';
 export class HomeWorldComponent implements OnInit {
   @Input() homeWorldUrl = '';
   planet: string = '';
+  peopleServiceSubscription = Subscription.EMPTY;
 
   constructor(private changeDetectionRef: ChangeDetectorRef,
     private peopleService: PeopleService) { }
@@ -20,11 +22,13 @@ export class HomeWorldComponent implements OnInit {
   }
 
   getHomeWorld( url: string) {
-    this.peopleService.getHomeWorld(url).subscribe( homeWorld => {
+    this.peopleServiceSubscription = this.peopleService.getHomeWorld(url).subscribe( homeWorld => {
       this.planet = homeWorld.name;
       this.changeDetectionRef.markForCheck();
     });
   }
 
-
+  ngOnDestroy(): void {
+    this.peopleServiceSubscription.unsubscribe();
+  }
 }

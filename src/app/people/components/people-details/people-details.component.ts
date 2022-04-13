@@ -19,6 +19,10 @@ export class PeopleDetailsComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.getPeopleDetails();
+  }
+
+  getPeopleDetails(): void {
     this.activatedRoute.data.subscribe(response => {
       this.people = response['people'];
       this.changeDetectionRef.markForCheck();

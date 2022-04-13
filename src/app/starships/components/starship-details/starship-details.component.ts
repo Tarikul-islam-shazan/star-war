@@ -19,6 +19,10 @@ export class StarshipDetailsComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.getStarshipDetails();
+  }
+
+  getStarshipDetails() : void {
     this.activatedRoute.data.subscribe(response => {
       this.starship = response['starship'];
       this.changeDetectionRef.markForCheck();
@@ -26,7 +30,7 @@ export class StarshipDetailsComponent implements OnInit {
   }
 
   backClicked() : void {
-      this.location.back();
+    this.location.back();
   }
 
 }

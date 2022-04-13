@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { SearchService } from '../core/services/search.service';
 import { Starship, StrashipList } from './models/starship';
 import { StarshipsService } from './starships.service';
@@ -12,6 +13,8 @@ import { StarshipsService } from './starships.service';
 export class StarshipsComponent implements OnInit {
 
   starships:Starship[] =  [];
+  starshipsServiceSubscription = Subscription.EMPTY;
+  searchServiceSubscription = Subscription.EMPTY;
   page: number = 1;
   totalPage: number = 0;
   prevPage: number = 0;
@@ -32,8 +35,8 @@ export class StarshipsComponent implements OnInit {
     this.getStarShip(this.page);
   }
 
-  searchOnStarshipList() : void{
-    this.searchService.searchQuery.subscribe(query => {
+  searchOnStarshipList() : void {
+    this.searchServiceSubscription = this.searchService.searchQuery.subscribe(query => {
       if(query.length != 0){
         this.starshipsService.searchStarshipList(query).subscribe(starship => {
           this.isPrevious = false;
@@ -48,7 +51,7 @@ export class StarshipsComponent implements OnInit {
 }
 
   getStarShip(page: number) {
-    this.starshipsService.getStarships(page).subscribe(starshipList => {
+    this.starshipsServiceSubscription = this.starshipsService.getStarships(page).subscribe(starshipList => {
       const { count, results, previous, next } = starshipList;
       if(page == 1) this.totalPage = Math.ceil(count/results.length)
       this.pagination(previous, next);
@@ -95,5 +98,10 @@ export class StarshipsComponent implements OnInit {
       }
     }
     this.getStarShip(this.page);
+  }
+
+  ngOnDestroy(): void {
+    this.starshipsServiceSubscription.unsubscribe();
+    this.searchServiceSubscription.unsubscribe();
   }
 }
