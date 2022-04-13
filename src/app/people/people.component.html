@@ -11,6 +11,7 @@
       <a [routerLink]="['/people',getIndex(p.url)]">More Details</a>
     </li>
   </ul>
+  <p *ngIf="hasNoDataForSearch">No results found.</p>
   <button class="btn" *ngIf="isNext" (click)="pageChange(nextText)" ><a>Next</a></button>
   <button class="btn"  *ngIf="isPrevious" (click)="pageChange(prevText)"><a>Previous</a></button>
 

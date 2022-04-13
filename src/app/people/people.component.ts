@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, SimpleChanges } from '@angular/core';
 import { PeopleData, People } from './models/people';
 import { PeopleService } from './people.service';
-import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { SearchService } from '../core/services/search.service';
 
@@ -24,6 +23,7 @@ export class PeopleComponent implements OnInit {
   searchServiceSubscription = Subscription.EMPTY;
   prevText: string = 'prev';
   nextText: string = 'next';
+  hasNoDataForSearch = false;
 
 
   constructor(
@@ -39,11 +39,14 @@ export class PeopleComponent implements OnInit {
 
   searchOnPeopleList() : void{
       this.searchServiceSubscription = this.searchService.searchQuery.subscribe(query => {
+        this.hasNoDataForSearch = false;
         if(query.length != 0){
-          this.peopleService.searchPeopleList(query).subscribe(people => {
+          this.peopleService.searchPeopleList(query).subscribe((people: People) => {
             this.isPrevious = false;
             this.isNext = false;
-            this.peoples = people.results;
+            const { results } = people;
+            this.peoples = results;
+            if(results.length === 0) this.hasNoDataForSearch = true;
             this.changeDetectionRef.markForCheck();
           })
         } else {
@@ -54,7 +57,7 @@ export class PeopleComponent implements OnInit {
 
 
   getPeoples(page: number): void {
-    this.getPeoplesService = this.peopleService.getPeople(page).subscribe( peoples => {
+    this.getPeoplesService = this.peopleService.getPeople(page).subscribe( (peoples: People) => {
       const { count, results, previous, next } = peoples;
       if(page == 1) this.totalPage = Math.ceil(count/results.length)
       this.pagination(previous,next);
@@ -85,7 +88,7 @@ export class PeopleComponent implements OnInit {
     }
   }
 
-  pageChange(choice: string){
+  pageChange(choice: string): void{
     if(choice == this.prevText){
       this.page = this.prevPage;
       if(this.page === 1) {
