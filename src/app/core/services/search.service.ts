@@ -2,30 +2,32 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+const  key = 'serach-key';
+@Injectable()
 export class SearchService {
 
   searchQuery = new Subject<string>();
-  key = 'serach-key';
-  sreachArray: string[] = [];
+  searchArray: string[] = [];
   numberOfSearchToStore = environment.numberOfSerach;
 
   constructor() {}
 
   storeInlocalStorage(query: string): void {
-    if(this.sreachArray.length < this.numberOfSearchToStore){
-      this.sreachArray.push(query);
+    let uniqueQueries;
+    if(this.searchArray.length < this.numberOfSearchToStore){
+      this.searchArray.push(query);
+      uniqueQueries = [...new Set(this.searchArray)];
     } else {
       const index = this.numberOfSearchToStore - 1;
-      this.sreachArray[index] = query;
+      this.searchArray[index] = query;
+      uniqueQueries = [...new Set(this.searchArray)];
     }
-    localStorage.setItem (this.key,JSON.stringify(this.sreachArray));
+    this.searchArray = uniqueQueries;
+    localStorage.setItem (key,JSON.stringify(this.searchArray));
   }
 
   getLocaStorageData(): Observable<string[]>{
-    return  localStorage.getItem (this.key) ? of(JSON.parse(localStorage.getItem (this.key) || '')) : of('') ;
+    return  localStorage.getItem (key) ? of(JSON.parse(localStorage.getItem (key) || '')) : of('') ;
   }
 
 }
