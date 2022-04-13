@@ -18,15 +18,17 @@ export class AppComponent{
     public searchService: SearchService,
     private changeDetectionRef: ChangeDetectorRef,
   ){
-    this.searchService.getLocaStorageData().subscribe(query => {
-      console.log(query);
-      this.suggestString = query;
-    });
-    this.searchService.searchQuery.subscribe((query) => {
-      if(query.length> 0) this.searchService.storeInlocalStorage(query);
-      this.suggestString = this.searchService.sreachArray;
-      this.changeDetectionRef.markForCheck();
-    })
+      this.searchService.getLocaStorageData().subscribe(query => {
+        console.log(query);
+          this.suggestString = query;
+        this.changeDetectionRef.markForCheck();
+      });
+
+      this.searchService.searchQuery.subscribe((query) => {
+        if(query.length> 0) this.searchService.storeInlocalStorage(query);
+        this.suggestString = this.searchService.sreachArray;
+        this.changeDetectionRef.markForCheck();
+      });
   }
 
   suggestSearch(query: string): void {

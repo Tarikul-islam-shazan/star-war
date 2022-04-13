@@ -25,7 +25,7 @@ export class SearchService {
   }
 
   getLocaStorageData(): Observable<string[]>{
-    return of(JSON.parse(localStorage.getItem (this.key) || ''));
+    return  localStorage.getItem (this.key) ? of(JSON.parse(localStorage.getItem (this.key) || '')) : of('') ;
   }
 
 }
