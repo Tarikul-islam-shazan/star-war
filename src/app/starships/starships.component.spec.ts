@@ -57,4 +57,11 @@ describe('StarshipComponent Test', () => {
     const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
     expect(listDisplay.innerText).toContain('CR90 corvette');
   })
+
+  it("should  starship  length 'normal'", () => {
+    comp.ngOnInit();
+    fixture.detectChanges();
+    const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
+    expect(listDisplay.innerText).toContain('normal');
+  })
 });
