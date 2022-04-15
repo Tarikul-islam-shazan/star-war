@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StarshipsComponent } from './starships.component';
 import { StarshipsService } from './starships.service';
-import { MockService } from '../testing/mock-starship.service'
+import { MockStarshipService } from '../testing/mock-starship.service'
 import { RouterTestingModule } from '@angular/router/testing';
 import { SearchService } from '../core/services/search.service';
 import { MockSearchService } from '../testing/mock-search.service';
@@ -21,7 +21,7 @@ describe('StarshipComponent Test', () => {
       declarations:[StarshipsComponent, StarshipLengthPipe],
       providers: [
         {
-          provide: StarshipsService, useClass: MockService
+          provide: StarshipsService, useClass: MockStarshipService
         },
         {
           provide: SearchService, useClass: MockSearchService

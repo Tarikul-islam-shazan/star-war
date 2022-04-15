@@ -5,7 +5,7 @@ import { StarshipsService } from "../starships/starships.service";
 import { getTestStarships } from "./mock-starships";
 
 @Injectable()
-export class MockService extends StarshipsService{
+export class MockStarshipService extends StarshipsService{
   expectedStarshipList: StrashipList = getTestStarships();
 
   constructor() {
