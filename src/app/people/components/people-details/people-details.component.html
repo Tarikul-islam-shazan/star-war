@@ -3,5 +3,5 @@
 <p><b>Eye color</b>: {{people.eye_color}}</p>
 <p><b>Mass</b>: {{people.mass}}</p>
 <p><b>Height</b>: {{ people.height | peopleHeight}}
-<p><b>Planet</b>:<app-home-world [homeWorldUrl]="people.homeworld"></app-home-world></p>
+<p><b>Planet</b>: {{ people.homeworld | homeworld}}</p>
 <button class="btn" (click)="backClicked()">Back</button>

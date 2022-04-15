@@ -6,7 +6,7 @@
         {{p.height | peopleHeight }}
       </span> / &nbsp;&nbsp;
       <span>
-        <app-home-world [homeWorldUrl]="p.homeworld"></app-home-world>
+        {{ p.homeworld | homeworld}}
       </span> &nbsp;&nbsp;
       <a [routerLink]="['/people',getIndex(p.url)]">More Details</a>
     </li>
