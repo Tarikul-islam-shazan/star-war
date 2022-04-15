@@ -3,8 +3,8 @@
     <li *ngFor="let p of peoples ; let i=index">
       {{p.name }} / &nbsp;&nbsp;
       <span>
-        <app-people-hight [peopleheight]="p.height"></app-people-hight>
-      </span> /&nbsp;&nbsp;
+        {{p.height | peopleHeight }}
+      </span> / &nbsp;&nbsp;
       <span>
         <app-home-world [homeWorldUrl]="p.homeworld"></app-home-world>
       </span> &nbsp;&nbsp;

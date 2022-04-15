@@ -5,7 +5,8 @@
       {{s.model}}
     </span> /&nbsp;&nbsp;
     <span>
-      <app-starship-length [starshipLength]="s.length"></app-starship-length>
+      {{s.length | starshipLength}}
+      <!-- <app-starship-length [starshipLength]="s.length"></app-starship-length> -->
     </span>&nbsp;&nbsp;
 
     <a [routerLink]="['/starships',getIndex(s.url)]">More Details</a>

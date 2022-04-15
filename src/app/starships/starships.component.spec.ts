@@ -4,7 +4,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StarshipsComponent } from './starships.component';
 import { StarshipsService } from './starships.service';
 import { MockService } from '../testing/mock-starship.service'
-import { StarshipLengthComponent } from './components/starship-length/starship-length.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('StarshipComponent Test', () => {
@@ -16,7 +15,7 @@ describe('StarshipComponent Test', () => {
      TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
 
-      declarations:[StarshipsComponent, StarshipLengthComponent],
+      declarations:[StarshipsComponent],
       providers: [
         {
           provide: StarshipsService, useClass: MockService
@@ -51,12 +50,5 @@ describe('StarshipComponent Test', () => {
     fixture.detectChanges();
     const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
     expect(listDisplay.innerText).toContain('CR90 corvette');
-  })
-
-  it("should contain starship  length 'Normal'", () => {
-    comp.ngOnInit();
-    fixture.detectChanges();
-    const listDisplay: HTMLElement = fixture.debugElement.nativeElement.querySelector('li');
-    expect(listDisplay.innerText).toContain('normal');
   })
 });

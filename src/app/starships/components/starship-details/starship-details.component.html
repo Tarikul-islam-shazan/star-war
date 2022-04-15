@@ -1,6 +1,6 @@
 <p><b>Name</b>: {{starship.name}}</p>
 <p><b> Model</b>: {{starship.model}}</p>
-<p><b>Length</b>: <app-starship-length [starshipLength]="starship.length"></app-starship-length></p>
+<p><b>Length</b>: {{ starship.length | starshipLength }}</p>
 <p><b>Crew</b>: {{starship.crew}}</p>
 
 <button class="btn" (click)="backClicked()">Back</button>
