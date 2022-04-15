@@ -5,6 +5,9 @@ import { StarshipsComponent } from './starships.component';
 import { StarshipsService } from './starships.service';
 import { MockService } from '../testing/mock-starship.service'
 import { RouterTestingModule } from '@angular/router/testing';
+import { SearchService } from '../core/services/search.service';
+import { MockSearchService } from '../testing/mock-search.service';
+import { StarshipLengthPipe } from './pipes/starship-length.pipe';
 
 describe('StarshipComponent Test', () => {
   let comp: StarshipsComponent;
@@ -15,10 +18,13 @@ describe('StarshipComponent Test', () => {
      TestBed.configureTestingModule({
       imports: [ RouterTestingModule ],
 
-      declarations:[StarshipsComponent],
+      declarations:[StarshipsComponent, StarshipLengthPipe],
       providers: [
         {
           provide: StarshipsService, useClass: MockService
+        },
+        {
+          provide: SearchService, useClass: MockSearchService
         },
         {
           provide: ChangeDetectorRef, useValue: true
